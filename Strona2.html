@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf0e8">
+  <meta name="description" content="Praktyczny przewodnik pobytu w apartamencie Sienna House.">
+  <title>Sienna House — przewodnik gościa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f1e9;
+      --surface: #fffdf9;
+      --ink: #292b27;
+      --muted: #77776d;
+      --line: #e7e0d5;
+      --olive: #58634e;
+      --clay: #a16c50;
+      --sand: #e9dfcf;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 8% 4%, rgba(223, 212, 192, .46), transparent 32rem),
+        radial-gradient(ellipse at 96% 34%, rgba(232, 224, 210, .52), transparent 28rem),
+        var(--paper);
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+
+    .page-shell {
+      width: min(100%, 560px);
+      margin: 0 auto;
+      min-height: 100vh;
+      background: rgba(255, 253, 249, .72);
+      box-shadow: 0 0 70px rgba(76, 62, 46, .055);
+      padding-bottom: 108px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 288px;
+      overflow: hidden;
+      color: #fffdf8;
+      background: #7a725e url("https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1200&q=85") center 54% / cover;
+    }
+
+    .hero::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: linear-gradient(180deg, rgba(27, 30, 26, .18) 0%, rgba(27, 30, 26, .15) 34%, rgba(27, 30, 26, .7) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      min-height: 288px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 26px 25px 25px;
+    }
+
+    .brand-line, .room-tag, .eyebrow, .section-kicker {
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    .brand-line { display: flex; align-items: center; gap: 9px; }
+    .brand-mark { width: 7px; height: 7px; border-radius: 50%; background: #d4bd96; }
+
+    .room-tag {
+      align-self: flex-start;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 9px 12px;
+      border: 1px solid rgba(255,255,255,.36);
+      border-radius: 3px;
+      background: rgba(31, 34, 29, .26);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero h1 {
+      margin: 15px 0 7px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(35px, 9vw, 44px);
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .hero-subtitle { margin: 0; color: rgba(255,253,248,.85); font-size: 13px; }
+
+    main { padding: 25px 21px 24px; }
+
+    .welcome-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 0 0 24px;
+      padding: 0 1px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .welcome-sun {
+      display: grid;
+      flex: 0 0 35px;
+      width: 35px;
+      height: 35px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--clay);
+      background: #f2e9dc;
+    }
+
+    .welcome-note h2 {
+      margin: 0 0 5px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      font-weight: 400;
+    }
+
+    .welcome-note p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+    .section-kicker { margin: 0 0 11px 2px; color: #888478; }
+
+    .accordion-list { display: grid; gap: 9px; }
+    .accordion-column { display: contents; }
+
+    .accordion-item {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--surface);
+      transition: border-color .2s ease, background .2s ease;
+    }
+
+    .accordion-item[ data-open="true"] { border-color: #d6c8b5; background: #fffefa; }
+
+    .accordion-trigger {
+      display: flex;
+      width: 100%;
+      min-height: 61px;
+      align-items: center;
+      gap: 13px;
+      padding: 11px 15px;
+      border: 0;
+      color: var(--ink);
+      text-align: left;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .accordion-trigger:focus-visible, .copy-button:focus-visible, .contact-link:focus-visible {
+      outline: 2px solid var(--olive);
+      outline-offset: 3px;
+    }
+
+    .icon-wrap {
+      display: grid;
+      flex: 0 0 34px;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 4px;
+      color: var(--olive);
+      background: #f0f0e8;
+    }
+
+    .accordion-title { flex: 1; font-size: 13px; font-weight: 600; }
+    .accordion-hint { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; font-weight: 400; }
+    .chevron { color: #8c887f; transition: transform .2s ease; }
+    .accordion-trigger[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+    .accordion-panel { padding: 0 16px 17px 62px; color: #55564f; font-size: 12px; line-height: 1.65; }
+    .accordion-panel[hidden] { display: none; }
+    .accordion-panel p { margin: 0 0 10px; }
+    .accordion-panel p:last-child { margin-bottom: 0; }
+    .accordion-panel strong { color: var(--ink); font-weight: 650; }
+
+    .wifi-detail {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid #eee7db;
+      border-radius: 4px;
+      background: #faf7f0;
+    }
+
+    .wifi-values { display: grid; gap: 3px; }
+    .wifi-values span { color: var(--muted); font-size: 10px; }
+    .wifi-values strong { font-size: 12px; letter-spacing: .01em; }
+    .wifi-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+
+    .password-toggle {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid #d9d0c2;
+      border-radius: 3px;
+      color: #45483e;
+      background: #fffdf9;
+      cursor: pointer;
+    }
+
+    .password-toggle svg:last-child, .password-toggle[aria-pressed="true"] svg:first-child { display: none; }
+    .password-toggle[aria-pressed="true"] svg:last-child { display: block; }
+
+    .equipment-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .equipment-card { min-width: 0; padding: 12px; border: 1px solid #eee7db; border-radius: 4px; background: #faf7f0; }
+    .equipment-card svg { display: block; margin-bottom: 9px; color: var(--olive); }
+    .equipment-card strong { display: block; margin-bottom: 4px; color: var(--ink); font-size: 11px; }
+    .equipment-card p { margin: 0; font-size: 11px; line-height: 1.55; }
+
+    .map-link {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      padding: 0 10px;
+      border: 1px solid #ded5c7;
+      border-radius: 3px;
+      color: var(--olive);
+      font-size: 10px;
+      font-weight: 650;
+      text-decoration: none;
+      background: #f5f0e7;
+      transition: color .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .map-link svg { flex: 0 0 auto; }
+    .map-link:hover { border-color: #c9bcaa; color: #353a30; background: #ebe5d8; }
+    .map-link:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px; }
+
+    .copy-button {
+      display: inline-flex;
+      min-height: 36px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 11px;
+      border: 1px solid #d9d0c2;
+      border-radius: 3px;
+      color: #45483e;
+      background: #fffdf9;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .nearby-list, .rules-list, .checkout-list { display: grid; gap: 9px; margin: 10px 0 0; padding: 0; list-style: none; }
+    .rules-list li { display: flex; align-items: flex-start; gap: 9px; }
+    .nearby-list li { display: grid; gap: 3px; }
+    .nearby-list span { color: var(--muted); font-size: 11px; }
+    .nearby-list .nearby-place { width: 100%; min-height: 40px; justify-content: space-between; margin-top: 0; padding: 0 11px; color: var(--ink); background: #fffdf9; }
+    .nearby-place-name, .nearby-place-action { display: inline-flex; align-items: center; gap: 6px; }
+    .nearby-place-name { font-size: 12px; font-weight: 650; }
+    .nearby-place-name svg { color: var(--olive); }
+    .nearby-place-action { color: var(--olive); font-size: 9px; font-weight: 650; white-space: nowrap; }
+    .nearby-place-action svg { color: inherit; }
+    .checkout-list { gap: 7px; }
+    .checkout-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px; border: 1px solid #eee7db; border-radius: 3px; color: #55564f; background: #faf7f0; font-size: 12px; line-height: 1.5; cursor: pointer; }
+    .checkout-item input { width: 17px; height: 17px; flex: 0 0 auto; margin: 1px 0 0; accent-color: var(--olive); cursor: pointer; }
+    .checkout-item:has(input:checked) { border-color: #d4d7c9; background: #f0f1e9; }
+    .checkout-item:has(input:checked) span { color: var(--muted); text-decoration: line-through; }
+    .checkout-item:focus-within { outline: 2px solid var(--olive); outline-offset: 2px; }
+    .rule-dot { color: var(--clay); }
+    .faq-question { margin: 10px 0 2px; color: var(--ink); font-weight: 650; }
+
+    .arrival-note {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      margin-top: 20px;
+      padding: 13px 14px;
+      border-left: 2px solid #b49a72;
+      background: #f5f0e7;
+      color: #666258;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .arrival-note svg { flex: 0 0 auto; color: #8a7554; }
+
+    .contact-dock {
+      position: fixed;
+      z-index: 5;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      padding: 13px 18px max(14px, env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(220, 211, 197, .88);
+      background: rgba(255, 253, 249, .94);
+      backdrop-filter: blur(14px);
+    }
+
+    .contact-inner { display: flex; width: min(100%, 520px); gap: 10px; }
+    .contact-link {
+      display: flex;
+      min-height: 46px;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 1px solid #d9d0c2;
+      border-radius: 4px;
+      color: #45483e;
+      background: #fffdf9;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .contact-link.primary { border-color: var(--olive); color: #fffdf8; background: var(--olive); }
+    .footer-note { margin: 17px 0 0; color: #979286; text-align: center; font-size: 10px; }
+
+    .toast {
+      position: fixed;
+      z-index: 10;
+      right: 50%;
+      bottom: 82px;
+      padding: 11px 16px;
+      transform: translate(50%, 10px);
+      border-radius: 4px;
+      color: white;
+      background: #343a31;
+      box-shadow: 0 8px 24px rgba(35, 36, 30, .18);
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .toast.visible { transform: translate(50%, 0); opacity: 1; }
+
+    @media (min-width: 640px) {
+      body { padding: 28px 18px; }
+      .page-shell { min-height: calc(100vh - 56px); border: 1px solid rgba(221, 212, 198, .72); }
+      .hero { min-height: 315px; }
+      .hero-content { min-height: 315px; padding: 28px 31px 29px; }
+      main { padding: 28px 29px 26px; }
+      .contact-dock { background: rgba(255, 253, 249, .91); }
+      .contact-inner { width: min(calc(100% - 36px), 500px); }
+    }
+
+    @media (min-width: 900px) {
+      body { padding: 36px 24px 112px; }
+      .page-shell {
+        width: min(100%, 1120px);
+        min-height: calc(100vh - 148px);
+        padding-bottom: 0;
+        overflow: hidden;
+        border: 1px solid rgba(221, 212, 198, .78);
+        border-radius: 6px;
+        background: rgba(255, 253, 249, .82);
+        box-shadow: 0 18px 65px rgba(76, 62, 46, .09);
+      }
+      .hero, .hero-content { min-height: 310px; }
+      .hero-content { padding: 30px 40px 31px; }
+      .hero h1 { font-size: 48px; }
+      main { padding: 31px 40px 30px; }
+      .welcome-note { align-items: center; padding-bottom: 24px; }
+      .welcome-note h2 { font-size: 24px; }
+      .welcome-note p { font-size: 13px; }
+      .section-kicker { margin-top: 1px; margin-bottom: 13px; }
+      .accordion-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 12px; }
+      .accordion-column { display: grid; align-content: start; gap: 12px; min-width: 0; }
+      .accordion-trigger { min-height: 68px; padding: 12px 16px; }
+      .accordion-title { font-size: 14px; }
+      .accordion-hint { font-size: 11px; }
+      .accordion-panel { padding-right: 18px; padding-bottom: 19px; font-size: 13px; }
+      .contact-dock {
+        right: auto;
+        bottom: 20px;
+        left: 50%;
+        width: min(520px, calc(100% - 48px));
+        padding: 8px;
+        transform: translateX(-50%);
+        border: 1px solid rgba(220, 211, 197, .96);
+        border-radius: 4px;
+        box-shadow: 0 8px 28px rgba(76, 62, 46, .12);
+      }
+      .contact-inner { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+  <style>
+    :root {
+      --paper: #edf0e8;
+      --surface: #fffdf7;
+      --ink: #202e2a;
+      --muted: #737c75;
+      --line: #dfe4da;
+      --olive: #3d5b4f;
+      --clay: #c86447;
+      --sand: #e6bd69;
+    }
+
+    body {
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image: repeating-linear-gradient(0deg, rgba(61, 91, 79, .025) 0 1px, transparent 1px 5px);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    .page-shell {
+      background: var(--surface);
+      box-shadow: 0 18px 70px rgba(42, 55, 46, .1);
+    }
+
+    .hero {
+      min-height: 330px;
+      background-color: #34483d;
+      background-position: center 54%;
+    }
+
+    .hero::before {
+      background: linear-gradient(90deg, rgba(25, 42, 34, .58), rgba(25, 42, 34, .06) 82%), linear-gradient(0deg, rgba(25, 42, 34, .5), transparent 70%);
+    }
+
+    .hero, .hero-content { min-height: 276px; }
+    .hero-content { padding: 21px 25px 23px; }
+    .brand-line { font-size: 10px; letter-spacing: .17em; }
+    .brand-mark { width: 8px; height: 8px; border-radius: 1px; background: var(--sand); transform: rotate(45deg); }
+    .room-tag { border-radius: 2px; border-color: rgba(255,255,255,.5); background: rgba(30, 47, 38, .42); }
+    .hero h1 { font-family: "DM Serif Display", Georgia, serif; font-size: clamp(42px, 11vw, 58px); line-height: .98; }
+    .hero-subtitle { max-width: 280px; font-size: 14px; }
+
+    main { padding-top: 22px; }
+    .welcome-note { align-items: center; margin-bottom: 18px; padding-bottom: 18px; border-color: var(--line); }
+    .welcome-sun { color: var(--clay); background: #f7e8de; }
+    .welcome-note h2 { font-family: "DM Serif Display", Georgia, serif; font-size: 25px; }
+    .welcome-note p { color: var(--muted); font-size: 13px; }
+    .section-kicker { color: var(--clay); }
+
+    .accordion-list { gap: 14px; }
+    .accordion-item {
+      border-color: var(--line);
+      border-radius: 5px;
+      background: #fffefa;
+      box-shadow: 0 3px 12px rgba(42, 55, 46, .035);
+      animation: section-arrive .45s ease both;
+    }
+
+    .accordion-column:first-child .accordion-item:nth-child(2) { animation-delay: 45ms; }
+    .accordion-column:first-child .accordion-item:nth-child(3) { animation-delay: 90ms; }
+    .accordion-column:first-child .accordion-item:nth-child(4) { animation-delay: 135ms; }
+    .accordion-column:last-child .accordion-item:nth-child(2) { animation-delay: 45ms; }
+    .accordion-column:last-child .accordion-item:nth-child(3) { animation-delay: 90ms; }
+    .accordion-item[data-open="true"] { border-color: #d7ad94; background: #fffdf7; box-shadow: inset 3px 0 var(--clay), 0 5px 18px rgba(42, 55, 46, .06); }
+
+    .accordion-trigger { min-height: 66px; }
+    .accordion-trigger:hover { background: rgba(237, 240, 232, .56); }
+    .accordion-title { font-size: 14px; }
+    .accordion-hint { color: var(--muted); font-size: 11px; }
+    .icon-wrap { width: 38px; height: 38px; flex-basis: 38px; border-radius: 50%; color: var(--olive); background: #e8eee6; }
+    .accordion-item:nth-child(even) .icon-wrap { color: var(--clay); background: #f7e8de; }
+    .chevron { color: var(--clay); }
+    .accordion-panel { color: #545f58; }
+
+    .wifi-detail { border-color: #dbe3d9; border-radius: 3px; background: #eef2eb; }
+    .copy-button, .password-toggle { border-color: #cdd8cd; border-radius: 3px; color: var(--olive); background: #fffdf7; }
+    .equipment-card { border-color: #e5e9df; border-radius: 3px; background: #fffdf7; }
+    .equipment-card svg { color: var(--clay); }
+    .map-link { border-color: #e6c8b9; border-radius: 3px; color: #9c4934; background: #f9eee8; }
+    .map-link:hover { border-color: var(--clay); color: #773c2e; background: #f5e2d8; }
+    .nearby-list .nearby-place { border-color: #e5e9df; background: #fffdf7; }
+    .nearby-place-name svg { color: var(--clay); }
+    .nearby-place-action { color: #a24e38; }
+    .checkout-item { border-color: #e3e7dd; border-radius: 3px; background: #f8f8f1; }
+    .checkout-item input { accent-color: var(--clay); }
+    .checkout-item:has(input:checked) { border-color: #c8d4c5; background: #edf2e9; }
+
+    .arrival-note { border-left-color: var(--clay); background: #f7eee0; color: #5d6258; }
+    .arrival-note svg { color: var(--clay); }
+    .contact-dock { border-color: rgba(32, 46, 42, .1); background: rgba(32, 46, 42, .97); }
+    .contact-link { border-color: rgba(255,255,255,.34); color: #fffdf7; background: transparent; }
+    .contact-link.primary { border-color: var(--clay); color: #fffdf7; background: var(--clay); }
+    .footer-note { color: var(--muted); }
+    .toast { background: var(--olive); }
+
+    @keyframes section-arrive {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (min-width: 640px) {
+      .hero, .hero-content { min-height: 350px; }
+      .hero-content { padding: 28px 34px 31px; }
+    }
+
+    @media (min-width: 900px) {
+      .hero, .hero-content { min-height: 390px; }
+      .hero-content { padding: 34px 48px 38px; }
+      .hero h1 { max-width: 720px; font-size: 72px; }
+      .hero-subtitle { max-width: none; font-size: 15px; }
+      main { padding: 39px 50px 34px; }
+      .welcome-note h2 { font-size: 29px; }
+      .accordion-list { gap: 18px; }
+      .accordion-column { gap: 14px; }
+      .accordion-trigger { min-height: 74px; padding: 13px 18px; }
+      .accordion-panel { padding-right: 20px; padding-bottom: 21px; font-size: 13px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero" aria-label="Powitanie w Sienna House">
+      <div class="hero-content">
+        <div class="brand-line"><span class="brand-mark" aria-hidden="true"></span> SIENNA HOUSE <span aria-hidden="true">·</span> KRAKÓW</div>
+        <div>
+          <span class="room-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 21V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v16M3 11h18M7 7h.01M11 7h.01M15 7h.01M7 15h.01M11 15h.01M15 15h.01M9 21v-3h6v3"/></svg> APARTAMENT 204</span>
+          <h1>Dobrze, że<br>jesteś.</h1>
+          <p class="hero-subtitle">Rozgość się. Resztą zajmiemy się my.</p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="welcome-note" aria-labelledby="welcome-title">
+        <span class="welcome-sun" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <div>
+          <h2 id="welcome-title">Twój mały kawałek Krakowa</h2>
+          <p>Wszystko, co przyda Ci się podczas pobytu, znajdziesz w jednym miejscu.</p>
+        </div>
+      </section>
+
+      <p class="section-kicker">Przewodnik pobytu</p>
+      <section class="accordion-list" aria-label="Informacje dla gości">
+        <div class="accordion-column">
+        <article class="accordion-item" data-open="true">
+          <h3 style="margin:0">
+            <button class="accordion-trigger" id="trigger-wifi" type="button" aria-expanded="true" aria-controls="panel-wifi">
+              <span class="icon-wrap" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 9a11 11 0 0 1 14 0M8 12a6.5 6.5 0 0 1 8 0m-5 8h.01M11 15a2 2 0 0 1 2 0"/><circle cx="12" cy="19" r="1"/></svg></span>
+              <span class="accordion-title">Wi-Fi<span class="accordion-hint">Połącz się i czuj jak u siebie</span></span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h3>
+          <div class="accordion-panel" id="panel-wifi" role="region" aria-labelledby="trigger-wifi">
+            <p>Sieć jest dostępna w całym apartamencie.</p>
+            <div class="wifi-detail">
+              <div class="wifi-values"><span>Nazwa sieci</span><strong id="wifi-name">Sienna_Guest</strong><span>Hasło</span><strong id="wifi-password" data-password="KawaIWidok26">••••••••••••</strong></div>
+              <div class="wifi-actions">
+                <button class="password-toggle" id="toggle-wifi-password" type="button" aria-label="Pokaż hasło Wi-Fi" aria-pressed="false" title="Pokaż hasło">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.2A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a14 14 0 0 1-3 3.8M6.2 6.2C3.5 8 2 12 2 12s3.5 7 10 7a10.8 10.8 0 0 0 3.1-.5"/></svg>
+                </button>
+                <button class="copy-button" id="copy-wifi" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg> Kopiuj hasło</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="accordion-item">
+          <h3 style="margin:0">
+            <button class="accordion-trigger" id="trigger-equipment" type="button" aria-expanded="false" aria-controls="panel-equipment">
+              <span class="icon-wrap" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h18v12H3zM8 21h8m-4-2v2M9 11h6m-3-3v6"/></svg></span>
+              <span class="accordion-title">Instrukcje i sprzęt<span class="accordion-hint">Kilka wskazówek na dobry początek</span></span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h3>
+          <div class="accordion-panel" id="panel-equipment" role="region" aria-labelledby="trigger-equipment" hidden>
+            <div class="equipment-grid">
+              <section class="equipment-card">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="8" rx="2"/><path d="M7 13v2m5-2v4m5-4v2M8 9h.01M12 9h.01M16 9h.01"/></svg>
+                <strong>Klimatyzacja</strong><p>Pilot leży na półce przy wejściu. Wybierz tryb chłodzenia lub ogrzewania i ustaw temperaturę.</p>
+              </section>
+              <section class="equipment-card">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1"/><path d="M8 21h8m-4-4v4M9 9l5 3-5 3V9Z"/></svg>
+                <strong>Telewizor</strong><p>Włącz TV i wybierz aplikację z ekranu głównego. Po pobycie wyloguj się ze swoich serwisów.</p>
+              </section>
+              <section class="equipment-card">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 4h12v16H5zM17 8h2a2 2 0 0 1 0 4h-2M8 8h6m-6 3h6m-6 3h4"/></svg>
+                <strong>Ekspres do kawy</strong><p>Napełnij zbiornik wodą, włóż kapsułkę i naciśnij przycisk filiżanki. Kawa czeka obok.</p>
+              </section>
+              <section class="equipment-card">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3v2m0 14v2M5.6 5.6 7 7m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4 7 17m10-10 1.4-1.4"/><circle cx="12" cy="12" r="5"/></svg>
+                <strong>Ogrzewanie</strong><p>Termostat znajduje się w salonie. Zamknij okna podczas ogrzewania.</p>
+              </section>
+            </div>
+          </div>
+        </article>
+
+        <article class="accordion-item">
+          <h3 style="margin:0">
+            <button class="accordion-trigger" id="trigger-parking" type="button" aria-expanded="false" aria-controls="panel-parking">
+              <span class="icon-wrap" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 17h14l-1.5-7h-11L5 17ZM7 10l1-4h8l1 4M7 17v2m10-2v2M7 13h.01M17 13h.01"/><path d="M10 13h4"/></svg></span>
+              <span class="accordion-title">Parking i dojazd<span class="accordion-hint">Miejsce postojowe oraz wjazd</span></span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h3>
+          <div class="accordion-panel" id="panel-parking" role="region" aria-labelledby="trigger-parking" hidden>
+            <p><strong>Miejsce:</strong> garaż podziemny, stanowisko P-12, poziom -1. Wjazd od ul. Siennej.</p>
+            <p><strong>Brama:</strong> pilot znajduje się na stoliku w przedpokoju. Zatrzymaj się przed bramą, naciśnij przycisk z symbolem kłódki i odłóż pilot z powrotem po zaparkowaniu.</p>
+            <p>Wysokość wjazdu: 2 m. Prosimy nie parkować na miejscach sąsiadów.</p>
+            <a class="map-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=Parking%20Sienna%20House%2C%20ul.%20Sienna%2C%20Krak%C3%B3w" data-destination="Parking Sienna House, ul. Sienna, Kraków" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>Nawiguj do parkingu</a>
+          </div>
+        </article>
+
+        <article class="accordion-item">
+          <h3 style="margin:0">
+            <button class="accordion-trigger" id="trigger-rules" type="button" aria-expanded="false" aria-controls="panel-rules">
+              <span class="icon-wrap" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 3h8l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M15 3v5h5M9 13h6m-6 4h6"/></svg></span>
+              <span class="accordion-title">Zasady pobytu<span class="accordion-hint">Drobne rzeczy, które robią różnicę</span></span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h3>
+          <div class="accordion-panel" id="panel-rules" role="region" aria-labelledby="trigger-rules" hidden>
+            <ul class="rules-list">
+              <li><span class="rule-dot">•</span><span>Prosimy o ciszę nocną w godzinach 22:00–7:00.</span></li>
+              <li><span class="rule-dot">•</span><span>W apartamencie obowiązuje zakaz palenia.</span></li>
+              <li><span class="rule-dot">•</span><span>Przed wyjściem zamknij okna i drzwi wejściowe.</span></li>
+              <li><span class="rule-dot">•</span><span>Segreguj odpady. Pojemniki znajdują się w pomieszczeniu przy garażu.</span></li>
+              <li><span class="rule-dot">•</span><span>Jeśli coś się zepsuje lub czegoś zabraknie, daj nam znać.</span></li>
+            </ul>
+          </div>
+        </article>
+        </div>
+
+        <div class="accordion-column">
+        <article class="accordion-item">
+          <h3 style="margin:0">
+            <button class="accordion-trigger" id="trigger-checkout" type="button" aria-expanded="false" aria-controls="panel-checkout">
+              <span class="icon-wrap" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12h12m-5-5 5 5-5 5M21 5v14"/></svg></span>
+              <span class="accordion-title">Wymeldowanie<span class="accordion-hint">Do zobaczenia do 11:00</span></span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h3>
+          <div class="accordion-panel" id="panel-checkout" role="region" aria-labelledby="trigger-checkout" hidden>
+            <p>Przed wyjściem, prosimy:</p>
+            <ul class="checkout-list">
+              <li><label class="checkout-item"><input type="checkbox"><span>Wyrzuć śmieci do oznaczonych pojemników przy garażu.</span></label></li>
+              <li><label class="checkout-item"><input type="checkbox"><span>Wyłącz światła i klimatyzację, zamknij okna.</span></label></li>
+              <li><label class="checkout-item"><input type="checkbox"><span>Zamknij drzwi na klucz i wrzuć klucze do skrzynki przy wejściu, kod: <strong>2040</strong>.</span></label></li>
+              <li><label class="checkout-item"><input type="checkbox"><span>Wyślij nam krótką wiadomość, że apartament jest już wolny.</span></label></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="accordion-item">
+          <h3 style="margin:0">
+            <button class="accordion-trigger" id="trigger-nearby" type="button" aria-expanded="false" aria-controls="panel-nearby">
+              <span class="icon-wrap" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <span class="accordion-title">Okolica<span class="accordion-hint">Nasze sprawdzone adresy w pobliżu</span></span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h3>
+          <div class="accordion-panel" id="panel-nearby" role="region" aria-labelledby="trigger-nearby" hidden>
+            <ul class="nearby-list">
+              <li><a class="map-link nearby-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rynek%20G%C5%82%C3%B3wny%2C%20Krak%C3%B3w" data-destination="Rynek Główny, Kraków" target="_blank" rel="noopener noreferrer"><span class="nearby-place-name">Rynek Główny<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="nearby-place-action">Otwórz mapę<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></span></a><span>Spacerem ok. 8 minut · poranna kawa i architektura</span></li>
+              <li><a class="map-link nearby-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=MOCAK%2C%20Krak%C3%B3w" data-destination="MOCAK, Kraków" target="_blank" rel="noopener noreferrer"><span class="nearby-place-name">MOCAK<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="nearby-place-action">Otwórz mapę<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></span></a><span>Ok. 20 minut pieszo · sztuka współczesna i spokojne popołudnie</span></li>
+              <li><a class="map-link nearby-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=Pod%20Anio%C5%82ami%2C%20Grodzka%2035%2C%20Krak%C3%B3w" data-destination="Pod Aniołami, Grodzka 35, Kraków" target="_blank" rel="noopener noreferrer"><span class="nearby-place-name">Pod Aniołami<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="nearby-place-action">Otwórz mapę<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></span></a><span>Restauracja z kuchnią polską · ul. Grodzka 35</span></li>
+              <li><a class="map-link nearby-place" href="https://www.google.com/maps/dir/?api=1&amp;destination=Massolit%20Books%20%26%20Cafe%2C%20Felicjanek%204%2C%20Krak%C3%B3w" data-destination="Massolit Books & Café, Felicjanek 4, Kraków" target="_blank" rel="noopener noreferrer"><span class="nearby-place-name">Massolit Books &amp; Café<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="nearby-place-action">Otwórz mapę<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></span></a><span>Księgarnia i kawa · ul. Felicjanek 4</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="accordion-item">
+          <h3 style="margin:0">
+            <button class="accordion-trigger" id="trigger-faq" type="button" aria-expanded="false" aria-controls="panel-faq">
+              <span class="icon-wrap" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.3 1.7c-1 .9-1.9 1.2-1.9 2.8m0 3h.01"/></svg></span>
+              <span class="accordion-title">Kontakt i FAQ<span class="accordion-hint">Jesteśmy blisko, gdy nas potrzebujesz</span></span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h3>
+          <div class="accordion-panel" id="panel-faq" role="region" aria-labelledby="trigger-faq" hidden>
+            <p class="faq-question">O której jest zameldowanie?</p><p>Od 15:00. Jeśli potrzebujesz wcześniejszego wejścia, skontaktuj się z nami.</p>
+            <p class="faq-question">Gdzie znajdę dodatkowe ręczniki?</p><p>W szafie w sypialni, na górnej półce.</p>
+            <p class="faq-question">Potrzebujesz pomocy?</p><p>Zadzwoń lub napisz do nas, korzystając z przycisków poniżej.</p>
+          </div>
+        </article>
+        </div>
+      </section>
+
+      <aside class="arrival-note"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3v18m9-9H3"/><circle cx="12" cy="12" r="9"/></svg><span>Życzymy Ci spokojnego pobytu. Gdybyś czegoś potrzebował_a, jesteśmy pod telefonem.</span></aside>
+      <p class="footer-note">Z troską o Twój dobry pobyt · Sienna House</p>
+    </main>
+  </div>
+
+  <nav class="contact-dock" aria-label="Szybki kontakt">
+    <div class="contact-inner">
+      <a class="contact-link primary" href="tel:+48600000000"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 19a19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.5 3.1a2 2 0 0 1-.6 1.7L7.1 10.4a16 16 0 0 0 6 6l1.9-1.9a2 2 0 0 1 1.7-.6l3.1.5a2 2 0 0 1 2.2 2.5Z"/></svg>Zadzwoń</a>
+      <a class="contact-link" href="https://wa.me/48600000000" target="_blank" rel="noopener noreferrer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8.5 8.5c.5 2.8 2.2 4.5 5 5"/></svg>WhatsApp</a>
+    </div>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Skopiowano!</div>
+
+  <script>
+    const accordionButtons = document.querySelectorAll('.accordion-trigger');
+    const toast = document.getElementById('toast');
+    let toastTimer;
+
+    const isAppleMobile = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    document.querySelectorAll('.map-link[data-destination]').forEach((link) => {
+      const destination = encodeURIComponent(link.dataset.destination);
+      if (isAppleMobile) link.href = `https://maps.apple.com/?daddr=${destination}&dirflg=d`;
+      if (isAndroid) link.href = `geo:0,0?q=${destination}`;
+    });
+
+    accordionButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        const panel = document.getElementById(button.getAttribute('aria-controls'));
+        button.setAttribute('aria-expanded', String(!isExpanded));
+        panel.hidden = isExpanded;
+        button.closest('.accordion-item').dataset.open = String(!isExpanded);
+      });
+    });
+
+    document.getElementById('toggle-wifi-password').addEventListener('click', (event) => {
+      const button = event.currentTarget;
+      const password = document.getElementById('wifi-password');
+      const isVisible = button.getAttribute('aria-pressed') === 'true';
+      button.setAttribute('aria-pressed', String(!isVisible));
+      button.setAttribute('aria-label', isVisible ? 'Pokaż hasło Wi-Fi' : 'Ukryj hasło Wi-Fi');
+      button.title = isVisible ? 'Pokaż hasło' : 'Ukryj hasło';
+      password.textContent = isVisible ? '••••••••••••' : password.dataset.password;
+    });
+
+    document.getElementById('copy-wifi').addEventListener('click', async () => {
+      const password = document.getElementById('wifi-password').dataset.password;
+      try {
+        await navigator.clipboard.writeText(password);
+      } catch {
+        const temporaryInput = document.createElement('textarea');
+        temporaryInput.value = password;
+        temporaryInput.setAttribute('readonly', '');
+        temporaryInput.style.position = 'fixed';
+        temporaryInput.style.opacity = '0';
+        document.body.appendChild(temporaryInput);
+        temporaryInput.select();
+        document.execCommand('copy');
+        temporaryInput.remove();
+      }
+      toast.classList.add('visible');
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove('visible'), 1800);
+    });
+  </script>
+</body>
+</html>

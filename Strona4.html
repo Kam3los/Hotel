@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pl" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Suites – Twój Apartament</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        beige: {
+                            50: '#FBF9F5',
+                            100: '#F4EFE6',
+                            200: '#E9E0D0',
+                            300: '#D5C7B0',
+                        },
+                        sand: {
+                            600: '#A38F75',
+                            700: '#85735B'
+                        },
+                        charcoal: {
+                            800: '#2A2D34',
+                            900: '#1A1C23'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar & smooth transitions */
+        body {
+            background-color: #F4EFE6;
+            color: #2A2D34;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-content.active {
+            max-height: 1000px;
+        }
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+        .open .rotate-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="h-full flex justify-center items-start sm:py-8 font-sans antialiased selection:bg-beige-300 selection:text-charcoal-900">
+
+    <!-- Główny kontener imitujący aplikację mobilną -->
+    <div class="w-full max-w-md min-h-screen sm:min-h-0 sm:rounded-3xl bg-beige-50 shadow-xl overflow-hidden flex flex-col relative border border-beige-200">
+
+        <!-- Toast powiadomienie -->
+        <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 -translate-y-20 opacity-0 transition-all duration-300 z-50 bg-charcoal-900 text-beige-50 px-5 py-2.5 rounded-full shadow-lg text-sm font-medium flex items-center space-x-2">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+            <span id="toast-message">Skopiowano do schowka!</span>
+        </div>
+
+        <!-- Nagłówek powitalny -->
+        <header class="relative px-6 pt-10 pb-6 bg-gradient-to-b from-beige-100 to-beige-50 border-b border-beige-200">
+            <div class="flex justify-between items-start mb-3">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-beige-200 text-sand-700 tracking-wide uppercase">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Witaj w domu
+                </span>
+                <span class="text-xs font-semibold text-sand-600 bg-beige-100 px-3 py-1 rounded-full border border-beige-200">
+                    Pokój <strong>#304</strong>
+                </span>
+            </div>
+            <h1 class="text-2xl font-bold text-charcoal-900 tracking-tight">Aura Boutique Suites</h1>
+            <p class="text-sm text-sand-700 mt-1">Życzymy cudownego i relaksującego pobytu!</p>
+        </header>
+
+        <!-- Główna zawartość z akordeonami -->
+        <main class="flex-1 px-5 py-6 space-y-3.5 overflow-y-auto">
+
+            <!-- 1. Wi-Fi (Szybka akcja z kopiowaniem) -->
+            <div class="bg-white rounded-2xl border border-beige-200 shadow-sm overflow-hidden transition-all duration-200">
+                <button onclick="toggleAccordion('wifi')" class="w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-beige-100 flex items-center justify-center text-sand-700 group-hover:bg-beige-200 transition-colors">
+                            <i data-lucide="wifi" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-semibold text-charcoal-900">Wi-Fi & Internet</h2>
+                            <p class="text-xs text-sand-600">Nazwa sieci i hasło dostępowe</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="w-5 h-5 text-sand-600 rotate-icon"></i>
+                </button>
+                <div id="wifi" class="accordion-content px-5 pb-5">
+                    <div class="pt-2 border-t border-beige-100 space-y-3">
+                        <div class="flex items-center justify-between bg-beige-50 p-3 rounded-xl border border-beige-200">
+                            <div>
+                                <span class="block text-[11px] uppercase tracking-wider text-sand-600 font-medium">Nazwa sieci (SSID)</span>
+                                <span id="wifi-ssid" class="text-sm font-semibold text-charcoal-900">Aura_Guest_5G</span>
+                            </div>
+                            <button onclick="copyToClipboard('wifi-ssid', 'Nazwa sieci skopiowana!')" class="p-2 text-sand-700 hover:text-charcoal-900 hover:bg-beige-200 rounded-lg transition-colors" title="Kopiuj nazwę">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between bg-beige-50 p-3 rounded-xl border border-beige-200">
+                            <div>
+                                <span class="block text-[11px] uppercase tracking-wider text-sand-600 font-medium">Hasło</span>
+                                <span id="wifi-pass" class="text-sm font-semibold text-charcoal-900 font-mono tracking-wide">Boutique2026!</span>
+                            </div>
+                            <button onclick="copyToClipboard('wifi-pass', 'Hasło skopiowane do schowka!')" class="p-2 text-sand-700 hover:text-charcoal-900 hover:bg-beige-200 rounded-lg transition-colors" title="Kopiuj hasło">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Instrukcje i sprzęt -->
+            <div class="bg-white rounded-2xl border border-beige-200 shadow-sm overflow-hidden transition-all duration-200">
+                <button onclick="toggleAccordion('equipment')" class="w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-beige-100 flex items-center justify-center text-sand-700 group-hover:bg-beige-200 transition-colors">
+                            <i data-lucide="sliders" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-semibold text-charcoal-900">Instrukcje i Sprzęt</h2>
+                            <p class="text-xs text-sand-600">Klimatyzacja, TV, ekspres do kawy</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="w-5 h-5 text-sand-600 rotate-icon"></i>
+                </button>
+                <div id="equipment" class="accordion-content px-5 pb-5">
+                    <div class="pt-2 border-t border-beige-100 space-y-3 text-xs text-sand-700">
+                        <div class="p-3 bg-beige-50 rounded-xl border border-beige-200 space-y-1">
+                            <div class="flex items-center gap-2 font-semibold text-charcoal-900">
+                                <i data-lucide="wind" class="w-4 h-4 text-sand-600"></i> Klimatyzacja
+                            </div>
+                            <p>Sterowana pilotem naściennym obok łóżka. Zalecana komfortowa temperatura to 21-22°C. Prosimy o wyłączanie klimatyzacji przy otwartych oknach.</p>
+                        </div>
+                        <div class="p-3 bg-beige-50 rounded-xl border border-beige-200 space-y-1">
+                            <div class="flex items-center gap-2 font-semibold text-charcoal-900">
+                                <i data-lucide="tv" class="w-4 h-4 text-sand-600"></i> Telewizor & Smart TV
+                            </div>
+                            <p>Telewizor obsługuje Netflix oraz YouTube. Czerwony przycisk na pilocie włącza menu aplikacji strumieniowych.</p>
+                        </div>
+                        <div class="p-3 bg-beige-50 rounded-xl border border-beige-200 space-y-1">
+                            <div class="flex items-center gap-2 font-semibold text-charcoal-900">
+                                <i data-lucide="coffee" class="w-4 h-4 text-sand-600"></i> Ekspres do kawy
+                            </div>
+                            <p>Dostępne kapsułki znajdują się w szufladzie pod ekspresem. Napełnij zbiornik świeżą wodą, włóż kapsułkę i naciśnij przycisk z filiżanką.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Parking -->
+            <div class="bg-white rounded-2xl border border-beige-200 shadow-sm overflow-hidden transition-all duration-200">
+                <button onclick="toggleAccordion('parking')" class="w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-beige-100 flex items-center justify-center text-sand-700 group-hover:bg-beige-200 transition-colors">
+                            <i data-lucide="car" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-semibold text-charcoal-900">Parking & Brama</h2>
+                            <p class="text-xs text-sand-600">Miejsce postojowe i kod wjazdu</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="w-5 h-5 text-sand-600 rotate-icon"></i>
+                </button>
+                <div id="parking" class="accordion-content px-5 pb-5">
+                    <div class="pt-2 border-t border-beige-100 space-y-3 text-xs text-sand-700">
+                        <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                            <span class="font-semibold text-charcoal-900 block mb-1">Miejsce numer #12</span>
+                            <p>Przypisane dedykowane miejsce znajduje się na dziedzińcu wewnętrznym, oznakowane tabliczką apartamentu.</p>
+                        </div>
+                        <div class="flex items-center justify-between bg-beige-50 p-3 rounded-xl border border-beige-200">
+                            <div>
+                                <span class="block text-[11px] uppercase tracking-wider text-sand-600 font-medium">Kod do bramy wjazdowej</span>
+                                <span id="gate-code" class="text-sm font-semibold text-charcoal-900 font-mono tracking-wide">#4589</span>
+                            </div>
+                            <button onclick="copyToClipboard('gate-code', 'Kod do bramy skopiowany!')" class="p-2 text-sand-700 hover:text-charcoal-900 hover:bg-beige-200 rounded-lg transition-colors" title="Kopiuj kod">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Zasady pobytu (House Rules) -->
+            <div class="bg-white rounded-2xl border border-beige-200 shadow-sm overflow-hidden transition-all duration-200">
+                <button onclick="toggleAccordion('rules')" class="w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-beige-100 flex items-center justify-center text-sand-700 group-hover:bg-beige-200 transition-colors">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-semibold text-charcoal-900">Zasady Pobytu</h2>
+                            <p class="text-xs text-sand-600">Cisza nocna i udogodnienia</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="w-5 h-5 text-sand-600 rotate-icon"></i>
+                </button>
+                <div id="rules" class="accordion-content px-5 pb-5">
+                    <div class="pt-2 border-t border-beige-100 space-y-2 text-xs text-sand-700">
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="moon" class="w-4 h-4 text-sand-600 shrink-0 mt-0.5"></i>
+                                <span><strong>Cisza nocna:</strong> Obowiązuje w godzinach od 22:00 do 6:00 rano.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="ban" class="w-4 h-4 text-sand-600 shrink-0 mt-0.5"></i>
+                                <span><strong>Zakaz palenia:</strong> Wewnątrz całego apartamentu obowiązuje całkowity zakaz palenia wyrobów tytoniowych i e-papierosów.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="heart" class="w-4 h-4 text-sand-600 shrink-0 mt-0.5"></i>
+                                <span><strong>Zwierzęta:</strong> Prosimy o niepozostawianie zwierząt bez opieki na meblach i łóżku.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Wymeldowanie (Check-out) -->
+            <div class="bg-white rounded-2xl border border-beige-200 shadow-sm overflow-hidden transition-all duration-200">
+                <button onclick="toggleAccordion('checkout')" class="w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-beige-100 flex items-center justify-center text-sand-700 group-hover:bg-beige-200 transition-colors">
+                            <i data-lucide="log-out" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-semibold text-charcoal-900">Wymeldowanie (Check-out)</h2>
+                            <p class="text-xs text-sand-600">Standardowo do godziny 11:00</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="w-5 h-5 text-sand-600 rotate-icon"></i>
+                </button>
+                <div id="checkout" class="accordion-content px-5 pb-5">
+                    <div class="pt-2 border-t border-beige-100 space-y-2.5 text-xs text-sand-700">
+                        <p class="font-medium text-charcoal-900">Przed wyjściem uprzejmie prosimy o:</p>
+                        <ol class="list-decimal list-inside space-y-1.5 pl-1">
+                            <li>Zamknięcie okien oraz wyłączenie klimatyzacji i oświetlenia.</li>
+                            <li>Wyrzucenie śmieci do pojemników zbiorczych na zewnątrz budynku.</li>
+                            <li>Pozostawienie klucza na stole w przedpokoju lub zatrzaśnięcie drzwi (jeśli korzystasz z kodu cyfrowego).</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Okolica i rekomendacje -->
+            <div class="bg-white rounded-2xl border border-beige-200 shadow-sm overflow-hidden transition-all duration-200">
+                <button onclick="toggleAccordion('surroundings')" class="w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none group">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-beige-100 flex items-center justify-center text-sand-700 group-hover:bg-beige-200 transition-colors">
+                            <i data-lucide="compass" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-semibold text-charcoal-900">Okolica & Restauracje</h2>
+                            <p class="text-xs text-sand-600">Nasze ulubione polecane miejsca</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="w-5 h-5 text-sand-600 rotate-icon"></i>
+                </button>
+                <div id="surroundings" class="accordion-content px-5 pb-5">
+                    <div class="pt-2 border-t border-beige-100 space-y-3 text-xs text-sand-700">
+                        <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-semibold text-charcoal-900">Kawiarnia Rzemieślnicza "Morning Glory"</span>
+                                <span class="text-[10px] bg-beige-200 px-2 py-0.5 rounded-full text-sand-700">3 min pieszo</span>
+                            </div>
+                            <p>Wybitna kawa speciality, świeże croissanty na zakwasie oraz pyszne śniadania.</p>
+                        </div>
+                        <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-semibold text-charcoal-900">Restauracja "Osteria Verde"</span>
+                                <span class="text-[10px] bg-beige-200 px-2 py-0.5 rounded-full text-sand-700">7 min pieszo</span>
+                            </div>
+                            <p>Autentyczna włoska kuchnia, domowy makaron i cudowny klimat butikowy.</p>
+                        </div>
+                        <div class="p-3 bg-beige-50 rounded-xl border border-beige-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-semibold text-charcoal-900">Sklep spożywczy Żabka</span>
+                                <span class="text-[10px] bg-beige-200 px-2 py-0.5 rounded-full text-sand-700">2 min pieszo</span>
+                            </div>
+                            <p>Otwarty codziennie w godzinach 6:00 – 23:00.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Szybki kontakt / stopka -->
+        <footer class="p-5 bg-beige-100 border-t border-beige-200 text-center space-y-4">
+            <div>
+                <p class="text-xs font-medium text-charcoal-900 mb-1">Potrzebujesz pomocy lub masz pytania?</p>
+                <p class="text-[11px] text-sand-600">Jesteśmy do Twojej dyspozycji przez cały czas pobytu.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <a href="tel:+48600700800" class="flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-beige-50 border border-beige-200 rounded-xl text-xs font-semibold text-charcoal-900 shadow-sm transition-all">
+                    <i data-lucide="phone" class="w-4 h-4 text-sand-700"></i> Zadzwoń
+                </a>
+                <a href="https://wa.me/48600700800" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 py-3 px-4 bg-emerald-700 hover:bg-emerald-800 rounded-xl text-xs font-semibold text-white shadow-sm transition-all">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
+                </a>
+            </div>
+            <div class="pt-2 text-[10px] text-sand-600">
+                Aura Suites &bull; NFC Smart Stay v1.0
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Inicjalizacja ikon Lucide
+        lucide.createIcons();
+
+        // Obsługa rozwijania akordeonów
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const parent = content.parentElement;
+            const isOpen = content.classList.contains('active');
+
+            // Opcjonalnie: Zamknij wszystkie inne (tutaj opcjonalnie zostawiamy otwarte lub pojedyncze)
+            // Zamykamy wszystkie
+            document.querySelectorAll('.accordion-content').forEach(el => {
+                el.classList.remove('active');
+                el.parentElement.classList.remove('open');
+            });
+
+            // Jeśli nie był otwarty, otwórz go
+            if (!isOpen) {
+                content.classList.add('active');
+                parent.classList.add('open');
+            }
+        }
+
+        // Kopiowanie do schowka i obsługa powiadomienia Toast
+        function copyToClipboard(elementId, successMessage) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            
+            // Metoda kompatybilna z bezpiecznymi środowiskami iframe / starszymi przeglądarkami
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            textarea.style.position = 'fixed';  // Unikaj przewijania
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast(successMessage);
+                } else {
+                    showToast('Nie udało się skopiować');
+                }
+            } catch (err) {
+                // Fallback dla navigator.clipboard
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showToast(successMessage);
+                }).catch(() => {
+                    showToast('Błąd kopiowania');
+                });
+            }
+
+            document.body.removeChild(textarea);
+        }
+
+        // Pokazywanie toastu
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            
+            toastMsg.innerText = message;
+            toast.classList.remove('-translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('-translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
